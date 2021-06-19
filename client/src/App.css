@@ -1,0 +1,18 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 3px;
+}
+.app {
+    text-align: center;
+    border: 3px solid black;
+    border-radius: 1em;
+}
+.todos {
+    width: 75%;
+}
+.right {
+    float: right;
+}
+.todo {
+    height: 35px;
+}
