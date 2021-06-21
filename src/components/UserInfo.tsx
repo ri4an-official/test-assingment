@@ -1,14 +1,15 @@
 import { Button, Collapse, IconButton, TextField } from '@material-ui/core'
 import { Alert, AlertTitle } from '@material-ui/lab'
-import { useStore } from 'effector-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useInput } from '../hooks/useInput'
-import { $user, getUserFx } from '../models/getUser'
+import { getUser } from '../models/query'
+import { User } from '../models/User'
 
 export const UserInfo = () => {
-    const user = useStore($user)
+    const [user, setUser] = useState({} as User)
     const userInput = useInput()
     const [open, setOpen] = useState(false)
+    useEffect(() => {})
     return (
         <p>
             <Collapse className='alert' in={open}>
@@ -53,7 +54,7 @@ export const UserInfo = () => {
             />
             <Button
                 onClick={() => {
-                    getUserFx(+userInput.value)
+                    setUser(getUser(+userInput.value).next().value ?? user)
                     setOpen(true)
                 }}
             >
