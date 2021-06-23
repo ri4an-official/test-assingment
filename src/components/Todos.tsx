@@ -1,11 +1,13 @@
 import { Button, TextField } from '@material-ui/core'
-import { useStore } from 'effector-react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useInput } from '../hooks/useInput'
-import { $todos, addTodo, deleteTodo } from '../models/todos'
+import { State } from '../models/store'
+import { addTodo, deleteTodo } from '../models/todosReducer'
 import { UserInfo } from './UserInfo'
 
 export const Todos = () => {
-    const todos = useStore($todos)
+    const todos = useSelector((s: State) => s.todosReducer.todos)
+    const dispatch = useDispatch()
     const { clear, isError, ...input } = useInput('', true)
     return (
         <>
@@ -26,7 +28,7 @@ export const Todos = () => {
                     onClick={() => {
                         if (!input.value) return
                         if (globalThis.confirm('Вы уверены?')) {
-                            addTodo(input.value)
+                            dispatch(addTodo(input.value))
                             clear?.call(this)
                         }
                     }}
@@ -44,7 +46,8 @@ export const Todos = () => {
                             variant='outlined'
                             color='secondary'
                             onClick={() =>
-                                globalThis.confirm('Вы уверены?') && deleteTodo(t.id)
+                                globalThis.confirm('Вы уверены?') &&
+                                dispatch(deleteTodo(t.id))
                             }
                         >
                             Delete

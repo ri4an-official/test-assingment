@@ -1,15 +1,13 @@
-import { Button, Collapse, IconButton, TextField } from '@material-ui/core'
+import { Button, Collapse, IconButton } from '@material-ui/core'
 import { Alert, AlertTitle } from '@material-ui/lab'
-import { useEffect, useState } from 'react'
-import { useInput } from '../hooks/useInput'
-import { getUser } from '../models/query'
-import { User } from '../models/User'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { State } from '../models/store'
 
 export const UserInfo = () => {
-    const [user, setUser] = useState({} as User)
-    const userInput = useInput()
+    const user = useSelector((s: State) => s.userReducer.user)
     const [open, setOpen] = useState(false)
-    useEffect(() => {})
+    const dispatch = useDispatch()
     return (
         <p>
             <Collapse className='alert' in={open}>
@@ -45,16 +43,9 @@ export const UserInfo = () => {
                     </Alert>
                 )}
             </Collapse>
-            <TextField
-                required
-                type='number'
-                placeholder='Enter user id...'
-                defaultValue={1}
-                {...userInput}
-            />
             <Button
                 onClick={() => {
-                    setUser(getUser(+userInput.value).next().value ?? user)
+                    dispatch({ type: 'setUser' })
                     setOpen(true)
                 }}
             >
